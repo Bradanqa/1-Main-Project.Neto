@@ -1,5 +1,5 @@
 #include <iostream>
-#include "framework.h"
+#include "../TransportLib/framework.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ int main()
       distance = 0;
       transportCounter = 0;
       std::string registrationTypes = " ";
-      double* result = new double[7];
+      TransportLib::Results* resultsArr = new TransportLib::Results[8];
       int index = 0;
       registration = 1;
 
@@ -107,7 +107,8 @@ int main()
                }
                transportCounter++;
                TransportLib::BootsOfSpeed* boots = new TransportLib::BootsOfSpeed;
-               result[index] = boots->getResult(distance);
+               resultsArr[index].resultOfTransport = boots->getResult(distance);
+               resultsArr[index].nameOfTransport = "Ботинки-Вездеходы";
                delete boots;
                registrationTypes += "Ботинки-Вездеходы";
                index++;
@@ -125,7 +126,8 @@ int main()
                }
                transportCounter++;
                TransportLib::Broom* broom = new TransportLib::Broom;
-               result[index] = broom->getResult(distance);
+               resultsArr[index].resultOfTransport = broom->getResult(distance);
+               resultsArr[index].nameOfTransport = "Метла";
                delete broom;
                registrationTypes += "Метла";
                index++;
@@ -143,7 +145,8 @@ int main()
                }
                transportCounter++;
                TransportLib::Camel* camel = new TransportLib::Camel;
-               result[index] = camel->getResult(distance);
+               resultsArr[index].resultOfTransport = camel->getResult(distance);
+               resultsArr[index].nameOfTransport = "Верблюд";
                delete camel;
                registrationTypes += "Верблюд";
                index++;
@@ -161,7 +164,8 @@ int main()
                }
                transportCounter++;
                TransportLib::Centaur* centaur = new TransportLib::Centaur;
-               result[index] = centaur->getResult(distance);
+               resultsArr[index].resultOfTransport = centaur->getResult(distance);
+               resultsArr[index].nameOfTransport = "Кентавр";
                delete centaur;
                registrationTypes += "Кентавр";
                index++;
@@ -179,7 +183,8 @@ int main()
                }
                transportCounter++;
                TransportLib::Eagle* eagle = new TransportLib::Eagle;
-               result[index] = eagle->getResult(distance);
+               resultsArr[index].resultOfTransport = eagle->getResult(distance);
+               resultsArr[index].nameOfTransport = "Орёл";
                delete eagle;
                registrationTypes += "Орёл";
                index++;
@@ -197,7 +202,8 @@ int main()
                }
                transportCounter++;
                TransportLib::FastCamel* fastCamel = new TransportLib::FastCamel;
-               result[index] = fastCamel->getResult(distance);
+               resultsArr[index].resultOfTransport = fastCamel->getResult(distance);
+               resultsArr[index].nameOfTransport = "Верблюд-быстроход";
                delete fastCamel;
                registrationTypes += "Верблюд-быстроход";
                index++;
@@ -215,7 +221,8 @@ int main()
                }
                transportCounter++;
                TransportLib::FlyCarpet* flyCarpet = new TransportLib::FlyCarpet;
-               result[index] = flyCarpet->getResult(distance);
+               resultsArr[index].resultOfTransport = flyCarpet->getResult(distance);
+               resultsArr[index].nameOfTransport = "Ковёр-самолёт";
                delete flyCarpet;
                registrationTypes += "Ковёр-самолёт";
                index++;
@@ -229,11 +236,26 @@ int main()
 
       }
 
-      for (int i = 1; i < index + 1; i++) {
-         std::cout << "\n" << i << ". " << "Время: " << result[i - 1] << std::endl;
+      for (int i = 0; i < index; i++) {
+         if (resultsArr[i + 1].resultOfTransport != 0) {
+            for (int j = 0; j < index - 1; j++) {
+               if (resultsArr[j] > resultsArr[j + 1]) {
+                  TransportLib::Results temp = resultsArr[j];
+                  resultsArr[j] = resultsArr[j + 1];
+                  resultsArr[j + 1] = temp;
+               }
+            }
+         }
+         else {
+            break;
+         }
       }
 
-      delete[] result;
+      for (int i = 0; i < index; i++) {
+         std::cout << "\n" << i + 1 << ". " << resultsArr[i].nameOfTransport <<". Время: " << resultsArr[i].resultOfTransport << std::endl;
+      }
+
+      delete[] resultsArr;
 
       std::cout << "\n1. Провести ещё одну гонку" << std::endl;
       std::cout << "2. Выйти" << std::endl;

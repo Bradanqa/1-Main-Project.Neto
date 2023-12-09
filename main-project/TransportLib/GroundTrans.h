@@ -8,5 +8,6 @@ namespace TransportLib {
       double chillTime = 0.0;
       double timeToChill = 0.0;
       bool firstChill = true;
+      bool secondChill = true;
    };
 }
